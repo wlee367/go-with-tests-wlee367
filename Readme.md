@@ -8,3 +8,6 @@ https://quii.gitbook.io/learn-go-with-tests/
 
 Godoc for v1.18 and later
 https://stackoverflow.com/a/68189959
+
+Go by example - `for` variations
+https://gobyexample.com/for
