@@ -28,5 +28,10 @@ Method values
 https://go.dev/ref/spec#Method_values
 
 Don't just check errors - handle them gracefully:
-
 https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
+
+Maps in Go:
+https://go.dev/blog/maps
+
+Constant errors in Go:
+https://dave.cheney.net/2016/04/07/constant-errors
