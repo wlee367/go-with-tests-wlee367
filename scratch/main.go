@@ -2,14 +2,15 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
 )
 
 const (
-	MINIMUM_OPTION = 1
-	MAXIMUM_OPTION = 5
+	MinOption = 1
+	MaxOption = 5
 )
 
 func main() {
@@ -33,7 +34,7 @@ func main() {
 
 		// Convert user input to integer
 		option, err := strconv.Atoi(userInput)
-		if err != nil || option < MINIMUM_OPTION || option > MAXIMUM_OPTION {
+		if err != nil || option < MinOption || option > MaxOption {
 			fmt.Println("Invalid input. Please enter a valid option (1, 2, 3, 4 or 5).")
 			continue
 		}
@@ -60,6 +61,6 @@ func doWorkBasedOnInput(userInput int, calculator Calculator) (HistoryList, erro
 		return PrintHistory(calculator.History)
 	default:
 		fmt.Println("Unrecognized value")
-		return HistoryList{}, nil
+		return HistoryList{}, errors.New("unrecognized value")
 	}
 }

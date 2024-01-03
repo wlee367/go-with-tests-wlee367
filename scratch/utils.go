@@ -57,7 +57,7 @@ func PrintResult(operation func() CalculatorResult) (HistoryList, error) {
 
 	fmt.Println("")
 	fmt.Println("=======================")
-	fmt.Println("The result is: ", result)
+	fmt.Println("The result is: ", result.HistoryList.OperationResult)
 	fmt.Println("=======================")
 	fmt.Println("")
 	return result.HistoryList, nil
