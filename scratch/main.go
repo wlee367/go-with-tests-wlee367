@@ -12,7 +12,7 @@ func main() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 
-	history := History{}
+	historyList := []HistoryList{}
 
 	for {
 		fmt.Println("1: Add, 2: Subtract, 3: Multiply, 4: Divide, 5: History, q to quit")
@@ -33,24 +33,26 @@ func main() {
 			continue
 		}
 
-		doWorkBasedOnInput(option, history)
+		historyList = doWorkBasedOnInput(option, historyList)
 		fmt.Println("------- restarting ---------")
 		fmt.Println()
 	}
 }
-func doWorkBasedOnInput(userInput int, history History) {
+func doWorkBasedOnInput(userInput int, history []HistoryList) []HistoryList {
 	switch userInput {
 	case 1:
-		PrintResult(AddNumbers, "add", history)
+		return PrintResult(AddNumbers, history)
 	case 2:
-		PrintResult(SubtractNumbers, "substract", history)
+		return PrintResult(SubtractNumbers, history)
 	case 3:
-		PrintResult(MultiplyNumbers, "multiply", history)
+		return PrintResult(MultiplyNumbers, history)
 	case 4:
-		PrintResult(DivideNumbers, "divide", history)
+		return PrintResult(DivideNumbers, history)
 	case 5:
 		PrintHistory(history)
 	default:
 		fmt.Println("Unrecognized value")
+		return history
 	}
+	return nil
 }

@@ -1,41 +1,34 @@
 package main
 
-import "github.com/google/uuid"
-
-type History map[string]int
-
-const (
-	ErrNotFound         = DictionaryErr("could not find the word you were looking for")
-	ErrWordExists       = DictionaryErr("cannot add word because it already exists")
-	ErrWordDoesNotExist = DictionaryErr("cannot update word because it does not exist")
+import (
+	"fmt"
 )
 
-type DictionaryErr string
+type HistoryInputs []int
 
-func (e DictionaryErr) Error() string {
-	return string(e)
+type HistoryList struct {
+	OperationType   string
+	OperationInputs HistoryInputs
+	OperationResult int
 }
 
-func (h History) Search(word string) (int, error) {
-	definition, ok := h[word]
-	if !ok {
-		return 0, ErrNotFound
-	}
-
-	return definition, nil
+func SaveResult(history []HistoryList, historyToSave HistoryList) []HistoryList {
+	history = append(history, historyToSave)
+	return history
 }
 
-func (h History) saveResult(word string, result int) error {
-	_, err := h.Search(word)
+func PrintHistory(historyList []HistoryList) {
 
-	switch err {
-	case ErrNotFound:
-		h[word] = result
-	case nil:
-		newWord := word + "_" + uuid.NewString()
-		h[newWord] = result
-	default:
-		return err
+	if len(historyList) == 0 {
+		fmt.Println("\nno history found yet")
+		fmt.Println()
+		return
 	}
-	return nil
+
+	fmt.Println("printing history...")
+	for _, item := range historyList {
+		fmt.Printf("{ \n Operation Type: %s, \n Operation Inputs: %d, \n Operation Result: %d \n}",
+			item.OperationType, item.OperationInputs, item.OperationResult)
+		fmt.Println("")
+	}
 }

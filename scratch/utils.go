@@ -54,17 +54,12 @@ func CheckForErrors(err error) (int, error) {
 	return 0, nil
 }
 
-func PrintResult(operation func() int, operationType string, history History) {
-	result := operation()
+func PrintResult(operation func(historyList []HistoryList) (int, []HistoryList), historyList []HistoryList) []HistoryList {
+	result, historyList := operation(historyList)
 	fmt.Println("")
 	fmt.Println("=======================")
 	fmt.Println("The result is: ", result)
 	fmt.Println("=======================")
 	fmt.Println("")
-
-	history.saveResult(operationType, result)
-}
-
-func PrintHistory(history History) {
-	fmt.Println(history)
+	return historyList
 }
