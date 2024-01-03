@@ -7,6 +7,11 @@ import (
 	"strconv"
 )
 
+const (
+	MINIMUM_OPTION = 1
+	MAXIMUM_OPTION = 5
+)
+
 func main() {
 	fmt.Println("Booting up calculator...")
 
@@ -28,18 +33,20 @@ func main() {
 
 		// Convert user input to integer
 		option, err := strconv.Atoi(userInput)
-		if err != nil || option < 1 || option > 5 {
+		if err != nil || option < MINIMUM_OPTION || option > MAXIMUM_OPTION {
 			fmt.Println("Invalid input. Please enter a valid option (1, 2, 3, 4 or 5).")
 			continue
 		}
 
-		historyList := doWorkBasedOnInput(option, calculator)
-		calculator.SaveHistory(historyList)
+		historyList, err := doWorkBasedOnInput(option, calculator)
+		if err == nil {
+			calculator.AddToHistory(historyList)
+		}
 		fmt.Println("------- restarting ---------")
 		fmt.Println()
 	}
 }
-func doWorkBasedOnInput(userInput int, calculator Calculator) HistoryList {
+func doWorkBasedOnInput(userInput int, calculator Calculator) (HistoryList, error) {
 	switch userInput {
 	case 1:
 		return PrintResult(AddNumbers)
@@ -53,6 +60,6 @@ func doWorkBasedOnInput(userInput int, calculator Calculator) HistoryList {
 		return PrintHistory(calculator.History)
 	default:
 		fmt.Println("Unrecognized value")
-		return HistoryList{}
+		return HistoryList{}, nil
 	}
 }

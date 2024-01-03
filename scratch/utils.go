@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -24,7 +25,7 @@ func PromptUserForNumbers() (int, int, error) {
 	secondNumber, err2 := strconv.Atoi(secondInput)
 
 	if err1 != nil || err2 != nil {
-		fmt.Println("Invalid input. Please enter valid numbers.")
+		return 0, 0, errors.New("invalid input. Please enter valid numbers")
 	}
 
 	return firstNumber, secondNumber, nil
@@ -46,20 +47,18 @@ func DivideNumbersHelper(a, b int) int {
 	return a / b
 }
 
-func CheckForErrors(err error) (int, error) {
-	if err != nil {
-		fmt.Println(err)
-		return 0, err
-	}
-	return 0, nil
-}
+func PrintResult(operation func() CalculatorResult) (HistoryList, error) {
+	result := operation()
 
-func PrintResult(operation func() (int, HistoryList)) HistoryList {
-	result, historyList := operation()
+	if result.CalculationError != nil {
+		fmt.Println("Error:", result.CalculationError)
+		return HistoryList{}, result.CalculationError
+	}
+
 	fmt.Println("")
 	fmt.Println("=======================")
 	fmt.Println("The result is: ", result)
 	fmt.Println("=======================")
 	fmt.Println("")
-	return historyList
+	return result.HistoryList, nil
 }

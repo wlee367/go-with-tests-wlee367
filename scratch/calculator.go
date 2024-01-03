@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 const (
 	ADD      = "add"
 	SUBTRACT = "subtract"
@@ -12,13 +14,22 @@ type Calculator struct {
 	History []HistoryList
 }
 
-func (c *Calculator) SaveHistory(historyList HistoryList) {
+type CalculatorResult struct {
+	Result           int
+	HistoryList      HistoryList
+	CalculationError error
+}
+
+func (c *Calculator) AddToHistory(historyList HistoryList) {
 	c.History = append(c.History, historyList)
 }
 
-func AddNumbers() (int, HistoryList) {
+func AddNumbers() CalculatorResult {
 	a, b, err := PromptUserForNumbers()
-	CheckForErrors(err)
+	if err != nil {
+		fmt.Println(err)
+		return CalculatorResult{0, HistoryList{}, err}
+	}
 
 	result := AddNumsHelper(a, b)
 	historyInputs := HistoryInputs{
@@ -30,12 +41,15 @@ func AddNumbers() (int, HistoryList) {
 		OperationResult: result,
 	}
 
-	return result, historyList
+	return CalculatorResult{result, historyList, nil}
 }
 
-func SubtractNumbers() (int, HistoryList) {
+func SubtractNumbers() CalculatorResult {
 	a, b, err := PromptUserForNumbers()
-	CheckForErrors(err)
+	if err != nil {
+		fmt.Println(err)
+		return CalculatorResult{0, HistoryList{}, err}
+	}
 
 	result := SubtractNumbersHelper(a, b)
 	historyInputs := HistoryInputs{
@@ -47,12 +61,15 @@ func SubtractNumbers() (int, HistoryList) {
 		OperationResult: result,
 	}
 
-	return result, historyList
+	return CalculatorResult{result, historyList, nil}
 }
 
-func MultiplyNumbers() (int, HistoryList) {
+func MultiplyNumbers() CalculatorResult {
 	a, b, err := PromptUserForNumbers()
-	CheckForErrors(err)
+	if err != nil {
+		fmt.Println(err)
+		return CalculatorResult{0, HistoryList{}, err}
+	}
 
 	result := MultiplyNumbersHelper(a, b)
 	historyInputs := HistoryInputs{
@@ -64,12 +81,15 @@ func MultiplyNumbers() (int, HistoryList) {
 		OperationResult: result,
 	}
 
-	return result, historyList
+	return CalculatorResult{result, historyList, nil}
 }
 
-func DivideNumbers() (int, HistoryList) {
+func DivideNumbers() CalculatorResult {
 	a, b, err := PromptUserForNumbers()
-	CheckForErrors(err)
+	if err != nil {
+		fmt.Println(err)
+		return CalculatorResult{0, HistoryList{}, err}
+	}
 
 	result := DivideNumbersHelper(a, b)
 	historyInputs := HistoryInputs{
@@ -80,5 +100,5 @@ func DivideNumbers() (int, HistoryList) {
 		OperationInputs: historyInputs,
 		OperationResult: result,
 	}
-	return result, historyList
+	return CalculatorResult{result, historyList, nil}
 }

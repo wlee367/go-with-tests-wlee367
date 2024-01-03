@@ -12,19 +12,17 @@ type HistoryList struct {
 	OperationResult int
 }
 
-func PrintHistory(historyList []HistoryList) HistoryList {
+func PrintHistory(historyList []HistoryList) (HistoryList, error) {
 	listToReturn := HistoryList{
 		OperationType:   "history",
 		OperationInputs: HistoryInputs{0, 0},
 		OperationResult: 0,
 	}
 
-	fmt.Println(listToReturn)
-
 	if len(historyList) == 0 {
 		fmt.Println("\nno history found yet")
 		fmt.Println()
-		return listToReturn
+		return listToReturn, nil
 	}
 
 	fmt.Println("printing history...")
@@ -34,5 +32,5 @@ func PrintHistory(historyList []HistoryList) HistoryList {
 		fmt.Println("")
 	}
 
-	return listToReturn
+	return listToReturn, nil
 }
